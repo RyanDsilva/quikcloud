@@ -1,16 +1,16 @@
 import { makeExecutableSchema } from "@graphql-tools/schema";
 import { YogaInitialContext } from "graphql-yoga";
+import { loadFilesSync } from "@graphql-tools/load-files";
+import { mergeTypeDefs } from "@graphql-tools/merge";
+import path from "path";
+
+const typesArray = loadFilesSync(path.join(__dirname, "graphql"), {
+  extensions: ["graphql"],
+});
+const typeDefs = mergeTypeDefs(typesArray);
 
 export const schema = makeExecutableSchema({
-  typeDefs: /* GraphQL */ `
-    type Query {
-      hello: String
-      cookie(name: String): String
-    }
-    type Mutation {
-      setCookie(name: String, value: String): String
-    }
-  `,
+  typeDefs,
   resolvers: {
     Query: {
       hello: () => "world",

@@ -6,6 +6,7 @@ interface IUser extends Document {
   name: string;
   email: string;
   password: string;
+  authority: string;
 }
 
 const userSchema: Schema<IUser> = new Schema({
@@ -25,6 +26,10 @@ const userSchema: Schema<IUser> = new Schema({
     type: String,
     required: true,
     minlength: 6,
+  },
+  authority: {
+    type: String,
+    default: "USER",
   },
 });
 

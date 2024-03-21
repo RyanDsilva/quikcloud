@@ -8,6 +8,9 @@ import { useResponseCache } from "@graphql-yoga/plugin-response-cache";
 import { schema } from "./schema";
 import { NODE_ENV, PORT, HOST, JWT_KEY } from "./utils/env";
 import { redisCache } from "./utils/redis";
+import { connectDB } from "./utils/database";
+
+connectDB();
 
 const app = express();
 
