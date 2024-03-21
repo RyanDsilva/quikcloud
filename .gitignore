@@ -42,3 +42,5 @@ yarn.lock
 
 .env.backend
 .env.frontend
+
+nginx/certs/*.pem
