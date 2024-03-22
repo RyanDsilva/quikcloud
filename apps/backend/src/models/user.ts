@@ -1,6 +1,5 @@
 import { model, Schema, Document } from "mongoose";
 import { hash } from "bcryptjs";
-import { HASH_KEY } from "../utils/env";
 
 interface IUser extends Document {
   name: string;
@@ -36,7 +35,7 @@ const userSchema: Schema<IUser> = new Schema({
 userSchema.pre("save", async function (next) {
   const user = this;
   if (user.isModified("password")) {
-    user.password = await hash(user.password, HASH_KEY);
+    user.password = await hash(user.password, 8);
   }
   next();
 });

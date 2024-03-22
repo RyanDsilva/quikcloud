@@ -10,6 +10,4 @@ COPY . ./
 
 EXPOSE 4000
 
-RUN ls -alh
-
 CMD [ "npm", "run", "serve" ]

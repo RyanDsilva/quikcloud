@@ -28,6 +28,7 @@ services:
       dockerfile: Dockerfile
     ports:
       - "4000:4000"
+      - "9229:9229"
     env_file:
       - .env.backend
     volumes:
@@ -41,14 +42,15 @@ services:
     ports:
       - "6379:6379"
     volumes:
-      - redis-data:/data
+      - ./redis-data:/data
 
   mongo:
     image: "mongo:latest"
     ports:
-      - "27017:27017"
+      - "27018:27017"
+    command: ["mongod", "--bind_ip_all"]
     volumes:
-      - mongo-data:/data/db
+      - ./mongo-data:/data/db
 
 volumes:
   redis-data:

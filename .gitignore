@@ -44,3 +44,8 @@ yarn.lock
 .env.frontend
 
 nginx/certs/*.pem
+nginx/certs/*.crt
+nginx/certs/*.key
+
+mongo-data/
+redis-data/

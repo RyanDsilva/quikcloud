@@ -6,11 +6,9 @@ import { useJWT } from "@graphql-yoga/plugin-jwt";
 import { EnvelopArmorPlugin } from "@escape.tech/graphql-armor";
 import { useResponseCache } from "@graphql-yoga/plugin-response-cache";
 import { schema } from "./schema";
-import { NODE_ENV, PORT, HOST, JWT_KEY } from "./utils/env";
+import { NODE_ENV, PORT, JWT_KEY } from "./utils/env";
 import { redisCache } from "./utils/redis";
 import { connectDB } from "./utils/database";
-
-connectDB();
 
 const app = express();
 
@@ -51,17 +49,19 @@ const yoga = createYoga({
     }),
     useCookies(),
     useJWT({
-      issuer: `http://${HOST}:${PORT}`,
+      issuer: `https://ryandsilva.local`,
       signingKey: JWT_KEY,
-      getToken: async ({ request }) =>
-        (await request.cookieStore?.get("Authorization"))?.value,
+      getToken: ({ request }) =>
+        request.headers?.get("Authorization") || undefined,
     }),
     NODE_ENV == "development" ? {} : EnvelopArmorPlugin(),
   ],
 });
 
-app.use(yoga.graphqlEndpoint, yoga);
+app.use("/api", yoga);
 
-app.listen(PORT, HOST, () => {
-  console.info(`Server is running on http://${HOST}:${PORT}/graphql`);
+connectDB().then(() => {
+  app.listen(PORT, () => {
+    console.info(`Server is running on http://ryandsilva.local/api/graphql`);
+  });
 });
